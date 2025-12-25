@@ -33,9 +33,9 @@ A simple REST API to manage a personal movie watchlist. Users can register and l
 
 Create a `.env` file with the following variables:
 
-DATABASE_URL=...
-JWT_SECRET=...
-JWT_EXPIRES_IN=7d
+DATABASE_URL=... |
+JWT_SECRET=... |
+JWT_EXPIRES_IN=7d |
 SEED_CREATOR_ID=...
 
 ### 2. Install dependencies
