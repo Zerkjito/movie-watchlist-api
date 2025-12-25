@@ -1,16 +1,17 @@
 import { prisma } from '../config/db.js';
 import bcrypt from 'bcryptjs';
 import { sendJSONResponse, sendJSONError } from '../utils/response.js';
+import { generateToken } from '../utils/generateToken.js';
 import { serializeUser } from '../utils/serialize.js';
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  // Check if user already exists
-  const userExits = await prisma.user.findUnique({ where: { email: email } });
+  // Verify user
+  const userExists = await prisma.user.findUnique({ where: { email: email } });
 
-  if (userExits) {
-    return sendJSONError(res, 'User already exists with this email', 400);
+  if (userExists) {
+    return sendJSONError(res, 'User already exists with this email', 400, 'EMAIL_ALREADY_EXISTS');
   }
 
   // Hash password
@@ -26,7 +27,33 @@ const register = async (req, res) => {
     },
   });
 
-  sendJSONResponse(res, { user: serializeUser(user) }, 201);
+  // Generate JWT token
+  const token = generateToken(user.id, res);
+
+  sendJSONResponse(res, { user: serializeUser(user), token }, 201);
 };
 
-export { register };
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  // Verify email
+  const user = await prisma.user.findUnique({ where: { email: email } });
+
+  if (!user) {
+    return sendJSONError(res, 'Invalid email or password', 401, 'INVALID_CREDENTIALS');
+  }
+
+  // Verify password
+  const isValidPassword = await bcrypt.compare(password, user.password);
+
+  if (!isValidPassword) {
+    return sendJSONError(res, 'Invalid email or password', 401, 'INVALID_CREDENTIALS');
+  }
+
+  // Generate JWT token
+  const token = generateToken(user.id, res);
+
+  sendJSONResponse(res, { user: serializeUser(user, false), token }, 200);
+};
+
+export { register, login };
