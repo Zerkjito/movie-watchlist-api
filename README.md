@@ -1,16 +1,17 @@
 # Movie Watchlist API
 
-A simple REST API to manage a personal movie watchlist. Users can register, add movies to their watchlist, track their watching status, and rate movies. Built with Node.js, Express, and Prisma ORM.
+A simple REST API to manage a personal movie watchlist. Users can register and log in, authenticate using JWT, add movies to their watchlist, track their watching status, and rate movies. Built with Node.js, Express, and Prisma ORM.
 
 ---
 
 ## Features
 
-- User registration and login
+- User registration and login with JWT authentication
 - Add movies to a personal watchlist
 - Track watching status: PLANNED, WATCHING, COMPLETED, DROPPED
 - Rate movies and add notes
 - Relational database managed with Prisma and PostgreSQL
+- Protected routes using authentication middleware
 
 ---
 
@@ -20,6 +21,8 @@ A simple REST API to manage a personal movie watchlist. Users can register, add 
 - Express
 - Prisma ORM
 - PostgreSQL
+- JWT
+- Cookie-based authenitcation (HTTP-only)
 - dotenv for environment variables
 
 ---
@@ -28,12 +31,39 @@ A simple REST API to manage a personal movie watchlist. Users can register, add 
 
 ### 1. Clone the repository
 
+Create a `.env` file with the following variables:
+
+DATABASE_URL=...
+JWT_SECRET=...
+JWT_EXPIRES_IN=7d
+SEED_CREATOR_ID=...
+
 ### 2. Install dependencies
 
 ### 3. Set up environment variables
 
 ### 4. Generate Prisma Client
 
-### 5. Apply the DB migrations to sync the database
+```bash
+npx prisma generate
+```
+
+### 5. Apply DB migrations
+
+For local development:
+
+```bash
+npx prisma migrate dev
+```
+
+For production/deployment:
+
+```bash
+npx prisma migrate deploy
+```
 
 ### 6. Start the server (Port 5001)
+
+```bash
+npm run dev
+```
