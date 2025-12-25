@@ -1,5 +1,7 @@
 import { prisma } from '../config/db.js';
 import bcrypt from 'bcryptjs';
+import { sendJSONResponse, sendJSONError } from '../utils/response.js';
+import { serializeUser } from '../utils/serialize.js';
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -8,7 +10,7 @@ const register = async (req, res) => {
   const userExits = await prisma.user.findUnique({ where: { email: email } });
 
   if (userExits) {
-    return res.status(400).json({ error: 'User already exists with this email' });
+    return sendJSONError(res, 'User already exists with this email', 400);
   }
 
   // Hash password
@@ -24,16 +26,7 @@ const register = async (req, res) => {
     },
   });
 
-  res.status(201).json({
-    status: 'success',
-    data: {
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-    },
-  });
+  sendJSONResponse(res, { user: serializeUser(user) }, 201);
 };
 
 export { register };
