@@ -8,13 +8,13 @@ import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
+// Body parsing middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // API Routes
 app.use('/movies', movieRoutes);
 app.use('/auth', authRoutes);
-
-app.get('/hello', (req, res) => {
-  res.json({ message: 'Hello World' });
-});
 
 const PORT = 5001;
 
