@@ -56,4 +56,13 @@ const login = async (req, res) => {
   sendJSONResponse(res, { user: serializeUser(user, false), token }, 200);
 };
 
-export { register, login };
+const logout = async (req, res) => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  sendJSONResponse(res, { message: 'Logged out succsessfully' }, 200);
+};
+
+export { register, login, logout };
