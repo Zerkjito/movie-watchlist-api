@@ -34,6 +34,6 @@ A simple REST API to manage a personal movie watchlist. Users can register, add 
 
 ### 4. Generate Prisma Client
 
-### 5. Pull the database schema (if using an existing one)
+### 5. Apply the DB migrations to sync the database
 
 ### 6. Start the server (Port 5001)
