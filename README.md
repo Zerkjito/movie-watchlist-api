@@ -1,4 +1,4 @@
-# Movie Watchlist API
+# Complete Movie Watchlist API | NodeJS, ExpressJS, JWT, Prisma, PostgreSQL
 
 <p align="center">
   <img src="assets/cover.png" alt="Movie Watchlist API Cover" width="1200"/>
@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/Zod-purple?logo=&logoColor=white" />
 </p>
 
-### A simple REST API to manage a personal movie watchlist. Users can register and log in, authenticate using JWT, add movies to their watchlist, track their watching status, and rate movies. Built with Node.js, Express, and Prisma ORM.
+A simple REST API to manage a personal movie watchlist. Users can register and log in, authenticate using JWT, add movies to their watchlist, track their watching status, and rate movies. Built with Node.js, Express, and Prisma ORM.
 
 ---
 
