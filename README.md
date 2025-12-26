@@ -5,12 +5,12 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Node.js-_-green?logo=node.js&logoColor=white" />
-  <img src="https://img.shields.io/badge/Express-_-lightgrey?logo=express&logoColor=black" />
-  <img src="https://img.shields.io/badge/Prisma-_-blue?logo=prisma&logoColor=white" />
-  <img src="https://img.shields.io/badge/PostgreSQL-_-#336791?logo=postgresql&logoColor=white" />
-  <img src="https://img.shields.io/badge/JWT-_-orange?logo=JSON%20Web%20Tokens&logoColor=white" />
-  <img src="https://img.shields.io/badge/Zod-_-purple?logo=&logoColor=white" />
+  <img src="https://img.shields.io/badge/Node.js-green?logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express-lightgrey?logo=express&logoColor=black" />
+  <img src="https://img.shields.io/badge/Prisma-blue?logo=prisma&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/JWT-orange?logo=JSON%20Web%20Tokens&logoColor=white" />
+  <img src="https://img.shields.io/badge/Zod-purple?logo=&logoColor=white" />
 </p>
 
 ### A simple REST API to manage a personal movie watchlist. Users can register and log in, authenticate using JWT, add movies to their watchlist, track their watching status, and rate movies. Built with Node.js, Express, and Prisma ORM.
