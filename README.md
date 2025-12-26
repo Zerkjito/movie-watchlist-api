@@ -12,6 +12,7 @@ A simple REST API to manage a personal movie watchlist. Users can register and l
 - Rate movies and add notes
 - Relational database managed with Prisma and PostgreSQL
 - Protected routes using authentication middleware
+- Rate Limiting / API Protection (per IP and per authenticated user)
 
 ---
 
@@ -24,6 +25,7 @@ A simple REST API to manage a personal movie watchlist. Users can register and l
 - JWT
 - Cookie-based authenitcation (HTTP-only)
 - dotenv for environment variables
+- Zod for validation
 
 ---
 
@@ -33,10 +35,10 @@ A simple REST API to manage a personal movie watchlist. Users can register and l
 
 Create a `.env` file with the following variables:
 
-DATABASE_URL=... |
-JWT_SECRET=... |
-JWT_EXPIRES_IN=7d |
-SEED_CREATOR_ID=...
+- DATABASE_URL=...
+- JWT_SECRET=...
+- JWT_EXPIRES_IN=7d
+- SEED_CREATOR_ID=...
 
 ### 2. Install dependencies
 
@@ -67,3 +69,17 @@ npx prisma migrate deploy
 ```bash
 npm run dev
 ```
+
+## API Endpoints
+
+**Auth**
+
+- POST /auth/register
+- POST /auth/login
+- POST /auth/logout
+
+**Watchlist**
+
+- POST /watchlist
+- PATCH /watchlist/:id
+- DELETE /watchlist/:id
