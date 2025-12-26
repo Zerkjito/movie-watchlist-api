@@ -54,4 +54,33 @@ export const removeFromWatchlist = async (req, res) => {
   sendJSONResponse(res, null, 204);
 };
 
-export const updateFromWatchlist = async (req, res) => {};
+export const updateWatchlistItem = async (req, res) => {
+  const { status, rating, notes } = req.body;
+  const watchlistItem = await prisma.watchlistItem.findFirst({
+    where: {
+      id: req.params.id,
+      userId: req.user.id,
+    },
+  });
+
+  if (!watchlistItem) {
+    return sendJSONError(res, 'Watchlist item not found', 404, 'WATCHLIST_ITEM_NOT_FOUND');
+  }
+
+  const updateData = {};
+
+  if (status !== undefined) updateData.status = status;
+  if (rating !== undefined) updateData.rating = rating;
+  if (notes !== undefined) updateData.notes = notes;
+
+  if (Object.keys(updateData).length === 0) {
+    return sendJSONError(res, 'No data provided to update', 400, 'EMPTY_UPDATE_DATA');
+  }
+
+  await prisma.watchlistItem.update({
+    where: { id: watchlistItem.id },
+    data: updateData,
+  });
+
+  sendJSONResponse(res, null, 204);
+};
