@@ -1,5 +1,20 @@
 # Movie Watchlist API
 
+<p align="center">
+  <img src="assets/cover.png" alt="Movie Watchlist API Cover" width="1200"/>
+</p>
+
+# Movie Watchlist API
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-18.x-green?logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express-4.x-lightgrey?logo=express&logoColor=black" />
+  <img src="https://img.shields.io/badge/Prisma-4.x-blue?logo=prisma&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostgreSQL-15-blue?logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/JWT-auth-orange?logo=JSON%20Web%20Tokens&logoColor=white" />
+  <img src="https://img.shields.io/badge/Zod-validation-purple?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAIAAAD..." />
+</p>
+
 A simple REST API to manage a personal movie watchlist. Users can register and log in, authenticate using JWT, add movies to their watchlist, track their watching status, and rate movies. Built with Node.js, Express, and Prisma ORM.
 
 ---
