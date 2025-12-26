@@ -70,6 +70,8 @@ npx prisma migrate deploy
 npm run dev
 ```
 
+---
+
 ## API Endpoints
 
 **Auth**
