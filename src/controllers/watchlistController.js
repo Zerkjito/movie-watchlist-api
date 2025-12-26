@@ -1,14 +1,14 @@
 import { prisma } from '../config/db.js';
 import { sendJSONError, sendJSONResponse } from '../utils/response.js';
 
-export const addToWatchlistController = async (req, res) => {
+export const addToWatchlist = async (req, res) => {
   const { movieId, status, rating, notes } = req.body;
 
   //  Verify movie
   const movie = await prisma.movie.findUnique({ where: { id: movieId } });
 
   if (!movie) {
-    return sendJSONError(res, 'Movie not found', 404, 'NOT_FOUND');
+    return sendJSONError(res, 'Movie not found', 404, 'MOVIE_NOT_FOUND');
   }
 
   //   Verify dupes
@@ -22,7 +22,7 @@ export const addToWatchlistController = async (req, res) => {
   });
 
   if (alreadyInWatchlist) {
-    return sendJSONError(res, 'Movie already in watchlist', 400, 'ALREADY_IN_WATCHLIST');
+    return sendJSONError(res, 'Movie already in watchlist', 409, 'MOVIE_ALREADY_IN_WATCHLIST');
   }
 
   const watchlistItem = await prisma.watchlistItem.create({
@@ -37,3 +37,21 @@ export const addToWatchlistController = async (req, res) => {
 
   sendJSONResponse(res, { watchlistItem }, 201);
 };
+
+export const removeFromWatchlist = async (req, res) => {
+  const watchlistItem = await prisma.watchlistItem.findFirst({
+    where: {
+      id: req.params.id,
+      userId: req.user.id,
+    },
+  });
+
+  if (!watchlistItem) {
+    return sendJSONError(res, 'Watchlist item not found', 404, 'WATCHLIST_ITEM_NOT_FOUND');
+  }
+
+  await prisma.watchlistItem.delete({ where: { id: watchlistItem.id } });
+  sendJSONResponse(res, null, 204);
+};
+
+export const updateFromWatchlist = async (req, res) => {};

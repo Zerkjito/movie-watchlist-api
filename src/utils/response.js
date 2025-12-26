@@ -1,4 +1,8 @@
 export const sendJSONResponse = (res, data, status = 200) => {
+  if (status === 204) {
+    return res.status(204).end();
+  }
+
   res.status(status).json({
     status: 'success',
     data,
