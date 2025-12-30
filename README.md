@@ -85,6 +85,16 @@ npm run dev
 
 ---
 
+### Database seeding (optional)
+
+Optionally, you can seed the database with initial movie data by running:
+
+```bash
+npm run seed:movies
+```
+
+---
+
 ## API Endpoints
 
 **Auth**
