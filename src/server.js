@@ -9,6 +9,9 @@ import watchlistRoutes from './routes/watchlistRoutes.js';
 
 const app = express();
 
+// IMPORTANT: enable if behind Cloudflare / Nginx
+// app.set('trust proxy', 1);
+
 // Body parsing middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 // API Routes
 app.use('/movies', movieRoutes);
 app.use('/auth', authRoutes);
+app.use('/auth', userRoutes);
 app.use('/watchlist', watchlistRoutes);
 
 const PORT = 5001;

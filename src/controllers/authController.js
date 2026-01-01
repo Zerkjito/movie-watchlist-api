@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { sendJSONResponse, sendJSONError } from '../utils/response.js';
 import { generateToken } from '../utils/generateToken.js';
 import { serializeUser } from '../utils/serialize.js';
+import { createHttpError } from '../utils/errors.js';
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -11,7 +12,7 @@ const register = async (req, res) => {
   const userExists = await prisma.user.findUnique({ where: { email: email } });
 
   if (userExists) {
-    return sendJSONError(res, 'User already exists with this email', 400, 'EMAIL_ALREADY_EXISTS');
+    throw createHttpError('User already exists with this email', 400, 'EMAIL_ALREADY_EXISTS');
   }
 
   // Hash password
@@ -56,13 +57,4 @@ const login = async (req, res) => {
   sendJSONResponse(res, { user: serializeUser(user, false), token }, 200);
 };
 
-const logout = async (req, res) => {
-  res.cookie('jwt', '', {
-    httpOnly: true,
-    expires: new Date(0),
-  });
-
-  sendJSONResponse(res, { message: 'Logged out succsessfully' }, 200);
-};
-
-export { register, login, logout };
+export { register, login };
