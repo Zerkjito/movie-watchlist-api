@@ -15,7 +15,9 @@ import { ENV } from './constants/env.js';
 const app = express();
 
 // IMPORTANT: enable if behind Cloudflare / Nginx
-// app.set('trust proxy', 1);
+if (ENV.IS_PRODUCTION) {
+  app.set('trust proxy', 1);
+}
 
 // Body parsing middlewares
 app.use(express.json());
