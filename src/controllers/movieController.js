@@ -1,5 +1,7 @@
-import { prisma } from '../config/db';
-import { sendJSONError, sendJSONResponse } from '../utils/response';
+import { prisma } from '../config/db.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
+import { createHttpError } from '../utils/errors.js';
+import { sendJSONResponse } from '../utils/response.js';
 
 export const addMovie = async (req, res) => {
   const { title, overview, releaseYear, genres, runtime, posterUrl } = req.body;
@@ -13,7 +15,7 @@ export const addMovie = async (req, res) => {
   });
 
   if (alreadyCreated) {
-    return sendJSONError(res, 'Movie already exists', 409, 'MOVIE_ALREADY_EXISTS');
+    throw createHttpError(res, 'Movie already exists', 409, ERROR_CODES.MOVIE_ALREADY_EXISTS);
   }
 
   const movie = await prisma.movie.create({
@@ -41,11 +43,13 @@ export const updateMovie = async (req, res) => {
   });
 
   if (!movie) {
-    return sendJSONError(res, 'Movie not found', 404, 'MOVIE_NOT_FOUND');
+    throw createHttpError('Movie not found', 404, ERROR_CODES.MOVIE_NOT_FOUND);
   }
 
   const updateData = Object.fromEntries(
-    Object.entries({ title, overview, releaseYear, genres, runtime, posterUrl }).filter(([_, v]) => v !== undefined)
+    Object.entries({ title, overview, releaseYear, genres, runtime, posterUrl }).filter(
+      ([_, v]) => v !== undefined
+    )
   );
 
   const updatedMovie = await prisma.movie.update({
@@ -65,7 +69,7 @@ export const removeMovie = async (req, res) => {
   });
 
   if (!movie) {
-    return sendJSONError(res, 'Movie not found', 404, 'MOVIE_NOT_FOUND');
+    throw createHttpError('Movie not found', 404, ERROR_CODES.MOVIE_NOT_FOUND);
   }
 
   await prisma.movie.delete({ where: { id: movie.id } });

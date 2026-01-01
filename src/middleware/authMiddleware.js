@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { prisma } from '../config/db.js';
-import { sendJSONError } from '../utils/response.js';
+import { createHttpError } from '../utils/errors.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
 
 export const authMiddleware = async (req, res, next) => {
   // Read token from the request
@@ -13,21 +14,22 @@ export const authMiddleware = async (req, res, next) => {
   }
 
   if (!token) {
-    return sendJSONError(res, 'Not authorized, no token provided', 401, 'NO_AUTH_TOKEN');
+    throw createHttpError('Not authorized, no token provided', 401, ERROR_CODES.NO_AUTH_TOKEN);
   }
 
   try {
     // Verifiy token and extract userId
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await prisma.user.findUnique({ where: { id: decodedToken.id } });
 
     if (!user) {
-      return sendJSONError(res, 'User no longer exists', 401, 'USER_NO_LONGER_EXISTS');
+      throw createHttpError('User no longer exists', 401, ERROR_CODES.USER_NO_LONGER_EXISTS);
     }
 
+    // Attach the user object to the request for future middlewares/controllers
     req.user = user;
     next();
   } catch (err) {
-    return sendJSONError(res, 'Ivalid or expired token', 401, 'INVALID_TOKEN');
+    throw createHttpError('Ivalid or expired token', 401, ERROR_CODES.INVALID_TOKEN);
   }
 };

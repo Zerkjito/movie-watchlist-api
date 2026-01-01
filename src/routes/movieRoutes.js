@@ -1,17 +1,18 @@
 import express from 'express';
-import { authMiddleware } from '../middleware/authMiddleware';
-import { ipLimiter, userLimiter } from '../middleware/rateLimit';
-import { validateRequest } from '../middleware/validateRequest';
-import { addMovieSchema, updateMovieSchema } from '../validators/movieValidators';
-import { addMovie, removeMovie, updateMovie } from '../controllers/movieController';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+import { apiLimiter } from '../middleware/rateLimit.js';
+import { validateRequest } from '../middleware/validateRequest.js';
+import { addMovieSchema, updateMovieSchema } from '../validators/movieValidators.js';
+import { addMovie, removeMovie, updateMovie } from '../controllers/movieController.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 
 const router = express.Router();
 
 router.use(authMiddleware);
-router.use(ipLimiter, userLimiter);
+router.use(apiLimiter);
 
-router.post('/', validateRequest(addMovieSchema), addMovie);
-router.patch('/:id', validateRequest(updateMovieSchema), updateMovie);
-router.delete('/:id', removeMovie);
+router.post('/', validateRequest(addMovieSchema), asyncHandler(addMovie));
+router.patch('/:id', validateRequest(updateMovieSchema), asyncHandler(updateMovie));
+router.delete('/:id', asyncHandler(removeMovie));
 
 export default router;

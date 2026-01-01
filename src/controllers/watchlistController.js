@@ -1,5 +1,7 @@
 import { prisma } from '../config/db.js';
-import { sendJSONError, sendJSONResponse } from '../utils/response.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
+import { createHttpError } from '../utils/errors.js';
+import { sendJSONResponse } from '../utils/response.js';
 
 export const addToWatchlist = async (req, res) => {
   const { movieId, status, rating, notes } = req.body;
@@ -8,7 +10,7 @@ export const addToWatchlist = async (req, res) => {
   const movie = await prisma.movie.findUnique({ where: { id: movieId } });
 
   if (!movie) {
-    return sendJSONError(res, 'Movie not found', 404, 'MOVIE_NOT_FOUND');
+    throw new createHttpError('Movie not found', 404, ERROR_CODES.MOVIE_NOT_FOUND);
   }
 
   //   Verify dupes
@@ -22,7 +24,11 @@ export const addToWatchlist = async (req, res) => {
   });
 
   if (alreadyInWatchlist) {
-    return sendJSONError(res, 'Movie already in watchlist', 409, 'MOVIE_ALREADY_IN_WATCHLIST');
+    throw createHttpError(
+      'Movie already in watchlist',
+      409,
+      ERROR_CODES.MOVIE_ALREADY_IN_WATCHLIST
+    );
   }
 
   const watchlistItem = await prisma.watchlistItem.create({
@@ -47,7 +53,7 @@ export const removeFromWatchlist = async (req, res) => {
   });
 
   if (!watchlistItem) {
-    return sendJSONError(res, 'Watchlist item not found', 404, 'WATCHLIST_ITEM_NOT_FOUND');
+    throw createHttpError('Watchlist item not found', 404, ERROR_CODES.WATCHLIST_ITEM_NOT_FOUND);
   }
 
   await prisma.watchlistItem.delete({ where: { id: watchlistItem.id } });
@@ -64,10 +70,12 @@ export const updateWatchlistItem = async (req, res) => {
   });
 
   if (!watchlistItem) {
-    return sendJSONError(res, 'Watchlist item not found', 404, 'WATCHLIST_ITEM_NOT_FOUND');
+    throw createHttpError('Watchlist item not found', 404, ERROR_CODES.WATCHLIST_ITEM_NOT_FOUND);
   }
 
-  const updateData = Object.fromEntries(Object.entries({ status, rating, notes }).filter(([_, v]) => v !== undefined));
+  const updateData = Object.fromEntries(
+    Object.entries({ status, rating, notes }).filter(([_, v]) => v !== undefined)
+  );
 
   const updatedWatchlistItem = await prisma.watchlistItem.update({
     where: { id: watchlistItem.id },

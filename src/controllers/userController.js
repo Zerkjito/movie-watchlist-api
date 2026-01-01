@@ -1,13 +1,14 @@
 import { prisma } from '../config/db.js';
-import { sendJSONError, sendJSONResponse } from '../utils/response.js';
+import { sendJSONResponse } from '../utils/response.js';
 import { serializeUser } from '../utils/serialize.js';
-import { throwMiddlewareError } from '../utils/errors.js';
+import { createHttpError } from '../utils/errors.js';
+import { ERROR_CODES } from '../constants/errorCodes.js';
 
 export const getProfile = async (req, res) => {
   const user = await prisma.user.findUnique({ where: { id: req.user.id } });
 
   if (!user) {
-    throw throwMiddlewareError('User not found', 404, 'USER_NOT_FOUND');
+    throw createHttpError('User not found', 404, ERROR_CODES.USER_NOT_FOUND);
   }
 
   sendJSONResponse(res, { data: serializeUser(user) }, 200);

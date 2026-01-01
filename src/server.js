@@ -6,6 +6,11 @@ import { connectDB, disconnectDB } from './config/db.js';
 import movieRoutes from './routes/movieRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import watchlistRoutes from './routes/watchlistRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import { createHttpError } from './utils/errors.js';
+import { ERROR_CODES } from './constants/errorCodes.js';
+import { ENV } from './constants/env.js';
 
 const app = express();
 
@@ -21,6 +26,15 @@ app.use('/movies', movieRoutes);
 app.use('/auth', authRoutes);
 app.use('/auth', userRoutes);
 app.use('/watchlist', watchlistRoutes);
+
+// 404 - Route not found
+app.use((req, res, next) => {
+  const message = ENV.IS_PRODUCTION ? 'Route not found' : `Route ${req.originalUrl} not found`;
+  const error = createHttpError(message, 404, ERROR_CODES.ROUTE_NOT_FOUND);
+  next(error);
+});
+
+app.use(errorHandler);
 
 const PORT = 5001;
 

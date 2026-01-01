@@ -3,10 +3,11 @@ import { register, login } from '../controllers/authController.js';
 import { apiLimiter } from '../middleware/rateLimit.js';
 import { validateRequest } from '../middleware/validateRequest.js';
 import { userLoginSchema, userRegisterSchema } from '../validators/authValidators.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 const router = express.Router();
 
 // Public routes
-router.post('/register', apiLimiter, validateRequest(userRegisterSchema), register);
-router.post('/login', apiLimiter, validateRequest(userLoginSchema), login);
+router.post('/register', apiLimiter, validateRequest(userRegisterSchema), asyncHandler(register));
+router.post('/login', apiLimiter, validateRequest(userLoginSchema), asyncHandler(login));
 
 export default router;

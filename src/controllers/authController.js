@@ -13,7 +13,11 @@ export const register = async (req, res) => {
   const userExists = await prisma.user.findUnique({ where: { email: email } });
 
   if (userExists) {
-    throw createHttpError('User already exists with this email', 409, ERROR_CODES.EMAIL_ALREADY_EXISTS);
+    throw createHttpError(
+      'User already exists with this email',
+      409,
+      ERROR_CODES.EMAIL_ALREADY_EXISTS
+    );
   }
 
   // Hash password
