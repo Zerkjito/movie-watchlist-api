@@ -15,7 +15,7 @@ export const addMovie = async (req, res) => {
   });
 
   if (alreadyCreated) {
-    throw createHttpError(res, 'Movie already exists', 409, ERROR_CODES.MOVIE_ALREADY_EXISTS);
+    throw createHttpError(res, 'Movie already created', 409, ERROR_CODES.MOVIE_ALREADY_CREATED);
   }
 
   const movie = await prisma.movie.create({

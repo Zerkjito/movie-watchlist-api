@@ -1,4 +1,4 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import { createClient } from 'redis';
 
@@ -21,7 +21,12 @@ if (isProduction) {
 export const apiLimiter = rateLimit({
   windowMs: 1000 * 60,
   limit: isProduction ? 100 : 1000,
-  keyGenerator: (req) => (req.user?.id ? `user:${req.user.id}` : `ip:${req.ip}`),
+  keyGenerator: (req, res) => {
+    if (req.user?.id) {
+      return `user:${req.user.id}`;
+    }
+    return `ip:${ipKeyGenerator(req, res)}`;
+  },
   message: {
     status: 'error',
     message: 'Too many requests, slow down!',
