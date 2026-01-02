@@ -11,6 +11,7 @@
   <img src="https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white" />
   <img src="https://img.shields.io/badge/JWT-orange?logo=JSON%20Web%20Tokens&logoColor=white" />
   <img src="https://img.shields.io/badge/Zod-purple?logo=Zod&logoColor=white" />
+  <img src="https://img.shields.io/badge/Redis-black?logo=Redis" />
 </p>
 
 A simple REST API to manage a personal movie watchlist. Users can register and log in, authenticate using JWT, add movies to their watchlist, track their watching status, and rate movies. Built with Node.js, Express, and Prisma ORM.
@@ -25,7 +26,7 @@ A simple REST API to manage a personal movie watchlist. Users can register and l
 - Rate movies and add notes
 - Relational database managed with Prisma and PostgreSQL
 - Protected routes using authentication middleware
-- Rate Limiting / API Protection (per IP and per authenticated user)
+- Rate Limiting / API Protection (per IP and per authenticated user using Redis in production)
 
 ---
 
@@ -39,6 +40,7 @@ A simple REST API to manage a personal movie watchlist. Users can register and l
 - Cookie-based authenitcation (HTTP-only)
 - dotenv for environment variables
 - Zod for validation
+- Redis (used in production for caching and rate limiting)
 
 ---
 
