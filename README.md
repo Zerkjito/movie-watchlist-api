@@ -95,6 +95,12 @@ npm run seed:movies
 
 ---
 
+### Testing
+
+You may use well-reputed tools such as Requestly, ThunderClient, Postman etc.
+
+---
+
 ## API Endpoints
 
 **Auth**
@@ -114,3 +120,11 @@ npm run seed:movies
 - POST /movie
 - PATCH /movie/:id
 - DELETE /movie/:id
+
+**User**
+
+- GET /user/profile
+- PATCH /user/profile
+- DELETE /user/profile
+
+Make sure to include the **Authorization header** with `Bearer <token>` for endpoints that require authentication.
