@@ -3,7 +3,7 @@ import { prisma } from '../config/db.js';
 import { createHttpError } from '../utils/errors.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 
-export const authMiddleware = async (req, res, next) => {
+export const authMiddleware = async (req, _res, next) => {
   // Read token from the request
   let token;
 
@@ -29,7 +29,7 @@ export const authMiddleware = async (req, res, next) => {
     // Attach the user object to the request for future middlewares/controllers
     req.user = user;
     next();
-  } catch (err) {
+  } catch (_err) {
     throw createHttpError('Ivalid or expired token', 401, ERROR_CODES.INVALID_TOKEN);
   }
 };

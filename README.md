@@ -117,11 +117,12 @@ You may use well-reputed tools such as Requestly, ThunderClient, Postman etc.
 - PATCH /watchlist/:id
 - DELETE /watchlist/:id
 
-**Movie**
+**Movies**
 
-- POST /movie
-- PATCH /movie/:id
-- DELETE /movie/:id
+- GET /movies
+- POST /movies
+- PATCH /movies/:id
+- DELETE /movies/:id
 
 **User**
 

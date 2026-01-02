@@ -3,7 +3,7 @@ import { sendJSONError } from '../utils/response.js';
 import { ENV } from '../constants/env.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 
-export const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err, _req, res, _next) => {
   let status = err.status || 500;
   let message = err.message || 'Internal Server Error';
   let code = err.code || ERROR_CODES.INTERNAL_ERROR;

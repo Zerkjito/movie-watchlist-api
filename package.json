@@ -1,12 +1,13 @@
 {
-  "name": "backend-course",
+  "name": "movie-watchlist-api",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.js",
-    "seed:movies": "node prisma/seed.js"
+    "seed:movies": "node prisma/seed.js",
+    "lint": "eslint src"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,10 @@
     "zod": "^4.2.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-secure-coding": "^3.0.0",
+    "globals": "^17.0.0",
     "nodemon": "^3.1.11"
   }
 }
