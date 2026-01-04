@@ -7,7 +7,7 @@ import { createHttpError } from '../utils/errors.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 
 export const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password } = req.validatedBody;
 
   // Verify user
   const userExists = await prisma.user.findUnique({ where: { email: email } });
@@ -33,14 +33,13 @@ export const register = async (req, res) => {
     },
   });
 
-  // Generate JWT token
-  const token = generateToken(user.id, res);
+  generateToken(user.id, res);
 
-  sendJSONResponse(res, { user: serializeUser(user), token }, 201);
+  sendJSONResponse(res, { user: serializeUser(user) }, 201);
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.validatedBody;
 
   // Verify email
   const user = await prisma.user.findUnique({ where: { email: email } });
@@ -56,8 +55,7 @@ export const login = async (req, res) => {
     throw createHttpError('Invalid email or password', 401, ERROR_CODES.INVALID_CREDENTIALS);
   }
 
-  // Generate JWT token
-  const token = generateToken(user.id, res);
+  generateToken(user.id, res);
 
-  sendJSONResponse(res, { user: serializeUser(user, false), token }, 200);
+  sendJSONResponse(res, { user: serializeUser(user, false) }, 200);
 };

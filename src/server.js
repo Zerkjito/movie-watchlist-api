@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 // API Routes
 app.use('/movies', movieRoutes);
 app.use('/auth', authRoutes);
-app.use('/auth', userRoutes);
+app.use('/users', userRoutes);
 app.use('/watchlist', watchlistRoutes);
 
 // 404 - Route not found

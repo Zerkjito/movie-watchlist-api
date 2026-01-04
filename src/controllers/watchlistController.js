@@ -4,7 +4,7 @@ import { createHttpError } from '../utils/errors.js';
 import { sendJSONResponse } from '../utils/response.js';
 
 export const addToWatchlist = async (req, res) => {
-  const { movieId, status, rating, notes } = req.body;
+  const { movieId, status, rating, notes } = req.validatedBody;
 
   //  Verify movie
   const movie = await prisma.movie.findUnique({ where: { id: movieId } });
@@ -47,7 +47,7 @@ export const addToWatchlist = async (req, res) => {
 export const removeFromWatchlist = async (req, res) => {
   const watchlistItem = await prisma.watchlistItem.findFirst({
     where: {
-      id: req.params.id,
+      id: req.validatedParams.id,
       userId: req.user.id,
     },
   });
@@ -61,10 +61,10 @@ export const removeFromWatchlist = async (req, res) => {
 };
 
 export const updateWatchlistItem = async (req, res) => {
-  const { status, rating, notes } = req.body;
+  const { status, rating, notes } = req.validatedBody;
   const watchlistItem = await prisma.watchlistItem.findFirst({
     where: {
-      id: req.params.id,
+      id: req.validatedParams.id,
       userId: req.user.id,
     },
   });

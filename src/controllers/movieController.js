@@ -4,7 +4,7 @@ import { createHttpError } from '../utils/errors.js';
 import { sendJSONResponse } from '../utils/response.js';
 
 export const addMovie = async (req, res) => {
-  const { title, overview, releaseYear, genres, runtime, posterUrl } = req.body;
+  const { title, overview, releaseYear, genres, runtime, posterUrl } = req.validatedBody;
 
   const alreadyCreated = await prisma.movie.findFirst({
     where: {
@@ -34,10 +34,10 @@ export const addMovie = async (req, res) => {
 };
 
 export const updateMovie = async (req, res) => {
-  const { title, overview, releaseYear, genres, runtime, posterUrl } = req.body;
+  const { title, overview, releaseYear, genres, runtime, posterUrl } = req.validatedBody;
   const movie = await prisma.movie.findFirst({
     where: {
-      id: req.params.id,
+      id: req.validatedParams.id,
       createdBy: req.user.id,
     },
   });
@@ -63,7 +63,7 @@ export const updateMovie = async (req, res) => {
 export const removeMovie = async (req, res) => {
   const movie = await prisma.movie.findFirst({
     where: {
-      id: req.params.id,
+      id: req.validatedParams.id,
       createdBy: req.user.id,
     },
   });
