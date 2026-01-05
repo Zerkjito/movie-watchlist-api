@@ -44,6 +44,19 @@ A simple REST API to manage a personal movie watchlist. Users can register and l
 
 ---
 
+## Security
+
+This project is aligned with security best practices inspired by the OWASP Top 10, including:
+
+- Input validation using Zod schemas
+- Protection against unvalidated user input
+- Secure authentication using JWT access & refresh tokens
+- HttpOnly, Secure, and SameSite cookies
+- Rate limiting on authentication routes
+- Proper error handling without sensitive data exposure
+
+---
+
 ## Getting Started
 
 ### 1. Clone the repository
