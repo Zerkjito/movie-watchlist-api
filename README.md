@@ -143,4 +143,7 @@ You may use well-reputed tools such as Requestly, ThunderClient, Postman etc.
 - PATCH /user/profile
 - DELETE /user/profile
 
-Make sure to include the **Authorization header** with `Bearer <token>` for endpoints that require authentication.
+Authentication is handled via HttpOnly cookies.
+
+Authenticated requests automatically include the `access` token stored in cookies.  
+No Authorization header is required.
