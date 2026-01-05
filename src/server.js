@@ -11,6 +11,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { createHttpError } from './utils/errors.js';
 import { ERROR_CODES } from './constants/errorCodes.js';
 import { ENV } from './constants/env.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -22,6 +23,7 @@ if (ENV.IS_PRODUCTION) {
 // Body parsing middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // API Routes
 app.use('/movies', movieRoutes);

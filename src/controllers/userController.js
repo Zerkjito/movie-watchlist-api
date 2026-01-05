@@ -3,6 +3,7 @@ import { sendJSONResponse } from '../utils/response.js';
 import { serializeUser } from '../utils/serialize.js';
 import { createHttpError } from '../utils/errors.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
+import { clearCookies } from '../utils/cookies.js';
 
 export const getProfile = async (req, res) => {
   const user = await prisma.user.findUnique({ where: { id: req.user.id } });
@@ -14,11 +15,9 @@ export const getProfile = async (req, res) => {
   sendJSONResponse(res, { data: serializeUser(user) }, 200);
 };
 
-export const logout = async (req, res) => {
-  res.cookie('jwt', '', {
-    httpOnly: true,
-    expires: new Date(0),
-  });
+export const logout = async (_req, res) => {
+  clearCookies(res, 'accesss');
+  clearCookies(res, 'refresh');
 
   sendJSONResponse(res, { message: 'Logged out succsessfully' }, 200);
 };
