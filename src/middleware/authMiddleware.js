@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import { prisma } from '../config/db.js';
 import { createHttpError } from '../utils/errors.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';

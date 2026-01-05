@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// SEED_CREATOR_ID must correspond to an existing user ID in the database
 const userId = process.env.SEED_CREATOR_ID;
 
 const movies = [
@@ -61,7 +62,8 @@ const movies = [
   },
   {
     title: 'Fight Club',
-    overview: 'An insomniac office worker and a devil-may-care soapmaker form an underground fight club.',
+    overview:
+      'An insomniac office worker and a devil-may-care soapmaker form an underground fight club.',
     releaseYear: 1999,
     genres: ['Drama'],
     runtime: 139,
@@ -70,7 +72,8 @@ const movies = [
   },
   {
     title: 'Forrest Gump',
-    overview: 'The presidencies of Kennedy and Johnson unfold through the perspective of an Alabama man.',
+    overview:
+      'The presidencies of Kennedy and Johnson unfold through the perspective of an Alabama man.',
     releaseYear: 1994,
     genres: ['Drama', 'Romance'],
     runtime: 142,
