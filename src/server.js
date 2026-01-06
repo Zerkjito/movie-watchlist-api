@@ -13,8 +13,11 @@ import { createHttpError } from './utils/errors.js';
 import { ERROR_CODES } from './constants/errorCodes.js';
 import { ENV } from './constants/env.js';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 const app = express();
+
+app.use(helmet());
 
 // IMPORTANT: enable if behind Cloudflare / Nginx
 if (ENV.IS_PRODUCTION) {
