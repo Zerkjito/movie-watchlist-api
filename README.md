@@ -146,5 +146,4 @@ You may use well-reputed tools such as Postman, Requestly, ThunderClient etc.
 - DELETE /user/profile
 
 Authentication is handled via HttpOnly cookies.
-Authenticated requests automatically include the `access` token stored in cookies.  
-No Authorization header is required.
+Authenticated requests automatically include the `access` token stored in cookies (no `Authorization` header is required).
