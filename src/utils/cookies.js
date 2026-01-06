@@ -1,7 +1,7 @@
 import { ENV } from '../constants/env.js';
 
-export const setCookie = (res, name, token, options = {}) => {
-  res.cookie(name, token, {
+export const setCookie = (res, name, cookieValue, options = {}) => {
+  res.cookie(name, cookieValue, {
     httpOnly: true,
     secure: ENV.IS_PRODUCTION,
     sameSite: 'strict',

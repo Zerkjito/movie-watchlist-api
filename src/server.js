@@ -7,6 +7,7 @@ import movieRoutes from './routes/movieRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import watchlistRoutes from './routes/watchlistRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import csrfRoutes from './routes/csrfRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { createHttpError } from './utils/errors.js';
 import { ERROR_CODES } from './constants/errorCodes.js';
@@ -30,6 +31,7 @@ app.use('/movies', movieRoutes);
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/watchlist', watchlistRoutes);
+app.use('/csrf', csrfRoutes);
 
 // 404 - Route not found
 app.use((req, res, next) => {
