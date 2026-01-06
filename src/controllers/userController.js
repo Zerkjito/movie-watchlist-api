@@ -15,6 +15,27 @@ export const getProfile = async (req, res) => {
   sendJSONResponse(res, { data: serializeUser(user) }, 200);
 };
 
+export const updateProfile = async (req, res) => {
+  const { name, email } = req.validatedBody;
+
+  const user = await prisma.user.findUnique({ where: { id: req.user.id } });
+
+  if (!user) {
+    throw createHttpError('User not found', 404, ERROR_CODES.USER_NOT_FOUND);
+  }
+
+  const updateData = Object.fromEntries(
+    Object.entries({ name, email }).filter(([_, v]) => v !== 'undefined')
+  );
+
+  const updatedProfile = await prisma.user.update({
+    where: { id: user.id },
+    data: updateData,
+  });
+
+  return sendJSONResponse(res, { profile: updatedProfile }, 200);
+};
+
 export const logout = async (_req, res) => {
   clearCookies(res, 'accesss');
   clearCookies(res, 'refresh');

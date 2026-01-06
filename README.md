@@ -124,7 +124,6 @@ You may use well-reputed tools such as Postman, Requestly, ThunderClient etc.
 
 - POST /auth/register
 - POST /auth/login
-- POST /auth/logout
 
 **Watchlist**
 
@@ -139,11 +138,12 @@ You may use well-reputed tools such as Postman, Requestly, ThunderClient etc.
 - PATCH /movies/:id
 - DELETE /movies/:id
 
-**User**
+**Users**
 
-- GET /user/profile
-- PATCH /user/profile
-- DELETE /user/profile
+- GET /users/me/
+- PATCH /users/me
+- PATCH /users/me/password
+- DELETE /users/me/
 
 Authentication is handled via HttpOnly cookies.
 Authenticated requests automatically include the `access` token stored in cookies (no `Authorization` header is required).
