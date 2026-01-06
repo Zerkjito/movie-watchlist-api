@@ -64,7 +64,9 @@ This project is aligned with security best practices inspired by the OWASP Top 1
 Create a `.env` file with the following variables:
 
 - DATABASE_URL=...
+- NODE_ENV=development
 - JWT_SECRET=...
+- JWT_ACCESS_SECRET=15m
 - JWT_REFRESH_SECRET=7d
 - SEED_CREATOR_ID=...
 
@@ -112,7 +114,7 @@ npm run seed:movies
 
 ### Testing
 
-You may use well-reputed tools such as Requestly, ThunderClient, Postman etc.
+You may use well-reputed tools such as Postman, Requestly, ThunderClient etc.
 
 ---
 
@@ -144,6 +146,5 @@ You may use well-reputed tools such as Requestly, ThunderClient, Postman etc.
 - DELETE /user/profile
 
 Authentication is handled via HttpOnly cookies.
-
 Authenticated requests automatically include the `access` token stored in cookies.  
 No Authorization header is required.
