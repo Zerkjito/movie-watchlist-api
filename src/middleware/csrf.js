@@ -1,7 +1,7 @@
 import { createHttpError } from '../utils/errors.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 
-export const csrfProtection = (req, res, next) => {
+export const csrfProtection = (req, _res, next) => {
   const csrfCookie = req.cookies?.csrf;
   const csrfHeader = req.headers['x-csrf-token'];
 
