@@ -22,5 +22,5 @@ router.patch(
 );
 
 router.patch('/me/password');
-router.post('logout', csrfProtection, apiLimiter, asyncHandler(logout));
+router.post('/logout', csrfProtection, apiLimiter, asyncHandler(logout));
 export default router;
