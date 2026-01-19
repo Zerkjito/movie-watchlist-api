@@ -1,8 +1,13 @@
 import express from 'express';
-import { register, login, refreshToken } from '../controllers/authController.js';
+import {
+  register,
+  login,
+  refreshToken,
+  forgotPasswordHandler,
+} from '../controllers/authController.js';
 import { apiLimiter } from '../middleware/rateLimit.js';
 import { validateRequest } from '../middleware/validateRequest.js';
-import { userLoginSchema, userRegisterSchema } from '../validators/authValidators.js';
+import { emailSchema, userLoginSchema, userRegisterSchema } from '../validators/authValidators.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { csrfProtection } from '../middleware/csrf.js';
 
@@ -27,5 +32,13 @@ router.post(
 );
 
 router.post('/refresh', apiLimiter, asyncHandler(refreshToken));
+
+router.post(
+  '/forgot-password',
+  apiLimiter,
+  csrfProtection,
+  validateRequest(emailSchema),
+  asyncHandler(forgotPasswordHandler)
+);
 
 export default router;

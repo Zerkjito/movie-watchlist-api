@@ -34,4 +34,5 @@ router.patch(
   asyncHandler(updatePassword)
 );
 router.post('/logout', csrfProtection, apiLimiter, asyncHandler(logout));
+
 export default router;
