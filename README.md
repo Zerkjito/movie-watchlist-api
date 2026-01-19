@@ -124,6 +124,8 @@ You may use well-reputed tools such as Postman, Requestly, ThunderClient etc.
 
 - POST /auth/register
 - POST /auth/login
+- POST /auth/forgot-password
+- POST /auth/reset-password
 
 **Watchlist**
 
