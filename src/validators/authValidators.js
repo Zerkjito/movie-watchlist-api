@@ -28,7 +28,7 @@ export const updateProfileSchema = userBaseSchema
   .partial()
   .refine((data) => Object.keys(data).length > 0, { error: 'At least one field must be provided' });
 
-export const changePasswordSchema = z.object({
+export const updatePasswordSchema = z.object({
   currentPassword: z.string().min(1, 'Password is required'),
   newPassword: userBaseSchema.shape.password,
 });

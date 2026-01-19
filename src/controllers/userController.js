@@ -4,6 +4,7 @@ import { serializeUser } from '../utils/serialize.js';
 import { createHttpError } from '../utils/errors.js';
 import { ERROR_CODES } from '../constants/errorCodes.js';
 import { clearCookies } from '../utils/cookies.js';
+import bcrypt from 'bcryptjs';
 
 export const getProfile = async (req, res) => {
   const user = await prisma.user.findUnique({ where: { id: req.user.id } });
@@ -24,8 +25,16 @@ export const updateProfile = async (req, res) => {
     throw createHttpError('User not found', 404, ERROR_CODES.USER_NOT_FOUND);
   }
 
+  if (email && email !== user.email) {
+    const exists = await prisma.user.findUnique({ where: email });
+
+    if (exists) {
+      throw (createHttpError('Email already in use', 409), ERROR_CODES.EMAIL_ALREADY_IN_USE);
+    }
+  }
+
   const updateData = Object.fromEntries(
-    Object.entries({ name, email }).filter(([_, v]) => v !== 'undefined')
+    Object.entries({ name, email }).filter(([_, v]) => v !== undefined)
   );
 
   const updatedProfile = await prisma.user.update({
@@ -33,18 +42,18 @@ export const updateProfile = async (req, res) => {
     data: updateData,
   });
 
-  return sendJSONResponse(res, { profile: updatedProfile }, 200);
+  return sendJSONResponse(res, { data: serializeUser(updatedProfile) }, 200);
 };
 
 export const logout = async (_req, res) => {
-  clearCookies(res, 'accesss');
+  clearCookies(res, 'access');
   clearCookies(res, 'refresh');
 
-  sendJSONResponse(res, { message: 'Logged out succsessfully' }, 200);
+  sendJSONResponse(res, { data: 'Logged out successfully' }, 200);
 };
 
 export const updatePassword = async (req, res) => {
-  const { currentPassword } = req.validatedBody;
+  const { currentPassword, newPassword } = req.validatedBody;
 
   const user = await prisma.user.findUnique({ where: { id: req.user.id } });
 
@@ -55,6 +64,15 @@ export const updatePassword = async (req, res) => {
   const isValidPassword = await bcrypt.compare(currentPassword, user.password);
 
   if (!isValidPassword) {
-    throw createHttpError("Password does not match original password", , ERROR_CODES.INVALID_CREDENTIALS)
+    throw createHttpError('Invalid credentials', 401, ERROR_CODES.INVALID_CREDENTIALS);
   }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { password: hashedPassword },
+  });
+
+  sendJSONResponse(res, { data: 'Password updated succsessfully' }, 200);
 };
